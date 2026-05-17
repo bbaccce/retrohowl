@@ -24,6 +24,10 @@
   --moon:    #f2e8cc;
   --slate:   #4a5870;
   --dim:     #2a3348;
+  /* player identity colors */
+  --alpha-c: #eee8de;
+  --luna-c:  #e63946;
+  --pack-c:  #4a9d6a;
 }
 
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -84,22 +88,25 @@ body::after{
 
 .header-art{
   position:relative;display:flex;
-  justify-content:center;align-items:flex-end;
-  height:190px;margin-bottom:4px;
+  justify-content:center;align-items:center;
+  height:160px;margin-bottom:4px;
 }
 
 .moon-disc{
-  position:absolute;top:0;left:50%;transform:translateX(-50%);
-  width:150px;height:150px;border-radius:50%;
-  background:radial-gradient(circle at 38% 32%,var(--moon) 0%,var(--moon) 52%,#d8c8a0 72%,#a89060 100%);
-  box-shadow:0 0 40px rgba(242,232,204,.38),0 0 80px rgba(242,232,204,.16),
-             inset -10px -10px 30px rgba(120,100,60,.45);
+  position:absolute;top:10px;left:50%;transform:translateX(-50%);
+  width:130px;height:130px;border-radius:50%;
+  background:radial-gradient(circle at 42% 38%, #fffbe8 0%, #f2e8cc 45%, #e0d0a0 75%, #c8b880 100%);
+  box-shadow:
+    0 0 30px 10px rgba(242,232,180,.35),
+    0 0 70px 20px rgba(242,232,160,.18),
+    0 0 120px 40px rgba(242,220,120,.08);
 }
 .moon-disc::before,.moon-disc::after{
-  content:"";position:absolute;border-radius:50%;background:rgba(150,128,90,.38);
+  content:"";position:absolute;border-radius:50%;
+  background:rgba(180,160,100,.25);
 }
-.moon-disc::before{top:30%;left:20%;width:22px;height:22px;}
-.moon-disc::after {top:57%;left:60%;width:14px;height:14px;}
+.moon-disc::before{top:28%;left:18%;width:20px;height:20px;}
+.moon-disc::after {top:55%;left:62%;width:12px;height:12px;}
 
 .wolf-l,.wolf-r{
   width:120px;height:168px;position:relative;z-index:2;
@@ -136,19 +143,84 @@ body::after{
   box-shadow:5px 5px 0 var(--shadow);
   padding:14px 18px;display:flex;align-items:center;gap:16px;
 }
-.player.alpha{border-color:var(--amber);}
-.player.luna {border-color:var(--moon);}
+.player.alpha{border-color:var(--alpha-c);}
+.player.luna {border-color:var(--luna-c);}
 
 .p-avatar{width:58px;height:58px;flex-shrink:0;filter:drop-shadow(2px 2px 0 var(--shadow));}
 
 .p-label{font-family:'Press Start 2P',monospace;font-size:8px;letter-spacing:2px;margin-bottom:5px;}
-.alpha .p-label{color:var(--amber);}
-.luna  .p-label{color:var(--moon);}
+.alpha .p-label{color:var(--alpha-c);}
+.luna  .p-label{color:var(--luna-c);}
 
 .p-name{font-family:'Press Start 2P',monospace;font-size:12px;color:var(--bone);margin-bottom:8px;}
 
 .p-stats{display:flex;gap:14px;font-size:19px;color:var(--amber);}
 .p-stats span{color:var(--steel);font-size:11px;margin-right:3px;font-family:'Press Start 2P',monospace;}
+
+/* ── TRASH ALL BUTTON ── */
+.lane-trash{
+  font-family:'Press Start 2P',monospace;font-size:8px;
+  background:rgba(196,37,59,.1);border:2px solid var(--blood);
+  color:var(--blood);cursor:pointer;letter-spacing:1px;
+  padding:4px 8px;margin-left:6px;
+  transition:background .1s;
+}
+.lane-trash:hover{background:var(--blood);color:var(--bone);}
+
+/* ── MOBILE MOVE BUTTONS ON CARD ── */
+.card-move{
+  display:flex;gap:3px;margin-top:5px;
+}
+.move-btn{
+  font-family:'Press Start 2P',monospace;font-size:6px;
+  background:none;border:1px solid var(--slate);
+  color:var(--slate);cursor:pointer;padding:3px 5px;
+  letter-spacing:.5px;flex:1;transition:all .1s;
+}
+.move-btn:hover{color:var(--bone);border-color:var(--bone);}
+.move-btn.want    {color:var(--amber);border-color:var(--amber);}
+.move-btn.watching{color:var(--blood);border-color:var(--blood);}
+.move-btn.watched {color:var(--pack-c);border-color:var(--pack-c);}
+.move-btn.current {opacity:.3;cursor:default;}
+
+/* ── SOUND TOGGLE ── */
+.sound-toggle{
+  position:fixed;top:14px;right:14px;z-index:1000;
+  font-family:'Press Start 2P',monospace;font-size:8px;
+  background:var(--bg-mid);border:2px solid var(--slate);
+  color:var(--slate);cursor:pointer;padding:6px 10px;
+  letter-spacing:1px;transition:all .1s;
+}
+.sound-toggle:hover{border-color:var(--amber);color:var(--amber);}
+.sound-toggle.on{color:var(--amber);border-color:var(--amber);}
+
+/* ── PACK SWITCH ── */
+.pack-switch-wrap{
+  display:flex;align-items:center;justify-content:center;
+  gap:16px;margin-bottom:28px;
+}
+.pack-switch-label{
+  font-family:'Press Start 2P',monospace;font-size:9px;
+  color:var(--slate);letter-spacing:2px;
+}
+.pack-switch{
+  display:flex;gap:0;
+  border:3px solid var(--slate);
+  box-shadow:4px 4px 0 var(--shadow);
+  overflow:hidden;
+}
+.ps-btn{
+  font-family:'Press Start 2P',monospace;font-size:9px;
+  padding:10px 16px;background:var(--bg-mid);
+  border:none;border-right:2px solid var(--slate);
+  color:var(--slate);cursor:pointer;letter-spacing:1px;
+  transition:background .1s,color .1s;
+}
+.ps-btn:last-child{border-right:none;}
+.ps-btn:hover{background:var(--dim);color:var(--bone);}
+.ps-btn.active[data-flag="alpha"]{background:rgba(238,232,222,.15);color:var(--alpha-c);border-color:var(--alpha-c);}
+.ps-btn.active[data-flag="pack"] {background:rgba(74,157,106,.18); color:var(--pack-c); border-color:var(--pack-c);}
+.ps-btn.active[data-flag="luna"] {background:rgba(230,57,70,.18);  color:var(--luna-c); border-color:var(--luna-c);}
 
 /* ── SEARCH ── */
 .search-wrap{position:relative;margin-bottom:36px;}
@@ -336,6 +408,7 @@ body::after{
   cursor:grab;display:flex;gap:8px;padding:8px;
   transition:transform .08s steps(2),box-shadow .08s steps(2),opacity .1s;
   position:relative;user-select:none;
+  touch-action:pan-y;
 }
 .card:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--shadow);}
 .card:active{cursor:grabbing;}
@@ -370,9 +443,9 @@ body::after{
   font-family:'Press Start 2P',monospace;font-size:6px;
   padding:2px 5px;letter-spacing:1px;border:1px solid;
 }
-.flag.alpha{color:var(--amber);border-color:var(--amber);}
-.flag.luna {color:var(--moon); border-color:var(--moon);}
-.flag.pack {color:var(--pine); border-color:var(--pine);background:var(--shadow);}
+.flag.alpha{color:var(--alpha-c);border-color:var(--alpha-c);}
+.flag.luna {color:var(--luna-c); border-color:var(--luna-c);}
+.flag.pack {color:var(--pack-c); border-color:var(--pack-c);background:var(--shadow);}
 
 .card-del{
   position:absolute;top:3px;right:3px;
@@ -391,9 +464,9 @@ body::after{
   background:none;color:var(--slate);cursor:pointer;
   letter-spacing:1px;transition:all .1s;
 }
-.flag-btn.active-alpha{color:var(--amber);border-color:var(--amber);}
-.flag-btn.active-luna {color:var(--moon); border-color:var(--moon);}
-.flag-btn.active-pack {color:var(--pine); border-color:var(--pine);}
+.flag-btn.active-alpha{color:var(--alpha-c);border-color:var(--alpha-c);}
+.flag-btn.active-luna {color:var(--luna-c); border-color:var(--luna-c);}
+.flag-btn.active-pack {color:var(--pack-c); border-color:var(--pack-c);}
 .flag-btn:hover{opacity:.8;}
 
 /* ── TOAST ── */
@@ -440,14 +513,45 @@ body::after{
 @keyframes load{0%{width:0}100%{width:100%}}
 
 @media(max-width:720px){
-  .header-art{height:140px;}
-  .moon-disc{width:110px;height:110px;}
-  .wolf-l,.wolf-r{width:86px;height:120px;}
-  .wolf-l{margin-right:-14px;}
-  .wolf-r{margin-left:-14px;}
+  .header-art{height:120px;}
+  .moon-disc{width:95px;height:95px;}
+  .wrap{padding:18px 14px 100px;}
   .hud{grid-template-columns:1fr;}
-  .slot{flex-direction:column;text-align:center;}
+  .player{padding:12px 14px;gap:12px;}
+  .p-avatar{width:48px;height:48px;}
+  .p-stats{gap:10px;font-size:17px;}
+  .p-stats span{font-size:10px;}
+  .slot{flex-direction:column;text-align:center;padding:14px;}
   .slot-info{text-align:center;}
+  .slot-poster,.slot-poster-ph{width:72px;height:108px;}
+  .pack-switch-wrap{flex-direction:column;gap:8px;}
+  .ps-btn{padding:8px 12px;font-size:8px;}
+  .search-box{padding:11px 14px;}
+  .search-input{font-size:18px;}
+  .wildcard{padding:18px 14px;}
+  .wc-label{font-size:13px;letter-spacing:2px;}
+  .wc-tag{font-size:16px;}
+  .lane{padding:12px 8px;min-height:auto;}
+  .lanes{gap:14px;}
+  .board-hint{display:none;}
+  .sound-toggle{top:10px;right:10px;font-size:7px;padding:5px 8px;}
+  .card{padding:7px;}
+  .card-poster,.card-poster-ph{width:48px;height:72px;}
+  .card-title{font-size:8px;}
+  .card-meta{font-size:13px;}
+  .flag{font-size:6px;}
+  .flag-btn{font-size:6px;padding:2px 4px;}
+  .move-btn{font-size:6px;padding:4px 4px;}
+  .lane-trash{font-size:7px;padding:3px 6px;}
+}
+
+@media(max-width:420px){
+  .app-title{font-size:24px !important;letter-spacing:2px;}
+  .moon-disc{width:80px;height:80px;}
+  .header-art{height:100px;}
+  .p-name{font-size:11px;}
+  .p-stats{font-size:15px;gap:8px;}
+  .p-stats span{font-size:9px;}
 }
 </style>
 </head>
@@ -503,6 +607,8 @@ body::after{
 <div class="fog"></div>
 <div class="stars" id="stars"></div>
 
+<button class="sound-toggle" id="soundToggle">🔇 SFX OFF</button>
+
 <svg class="treeline" viewBox="0 0 100 12" preserveAspectRatio="none" shape-rendering="crispEdges">
   <g fill="#060810">
     <polygon points="0,12 4,4 8,12"/><polygon points="6,12 12,1 18,12"/>
@@ -520,9 +626,7 @@ body::after{
   <!-- HEADER -->
   <header class="header">
     <div class="header-art">
-      <svg class="wolf-l" style="color:var(--bg)"><use href="#wolf-howl"/></svg>
       <div class="moon-disc"></div>
-      <svg class="wolf-r" style="color:var(--bg)"><use href="#wolf-howl"/></svg>
     </div>
     <h1 class="app-title">RETROHOWL</h1>
     <div class="app-sub">★ THE PACK'S WATCHLIST ★</div>
@@ -537,30 +641,40 @@ body::after{
   <!-- HUD -->
   <section class="hud">
     <div class="player alpha">
-      <svg class="p-avatar" style="color:var(--amber)"><use href="#wolf-head"/></svg>
+      <svg class="p-avatar" style="color:var(--alpha-c)"><use href="#wolf-head"/></svg>
       <div>
         <div class="p-label">◢ ALPHA</div>
         <div class="p-name">YOU</div>
         <div class="p-stats">
-          <div><span>HUNTS</span><span id="stat-watched">0</span></div>
-          <div><span>TRACK</span><span id="stat-want">0</span></div>
-          <div><span>TOTAL</span><span id="stat-total">0</span></div>
+          <div><span>HUNTS</span><span id="stat-alpha-watched">0</span></div>
+          <div><span>TRACK</span><span id="stat-alpha-want">0</span></div>
+          <div><span>TOTAL</span><span id="stat-alpha-total">0</span></div>
         </div>
       </div>
     </div>
     <div class="player luna">
-      <svg class="p-avatar" style="color:var(--moon)"><use href="#wolf-head"/></svg>
+      <svg class="p-avatar" style="color:var(--luna-c)"><use href="#wolf-head"/></svg>
       <div>
         <div class="p-label">◣ LUNA</div>
         <div class="p-name">GF</div>
         <div class="p-stats">
-          <div><span>SHARED</span><span id="stat-pack">0</span></div>
-          <div><span>HERS</span><span id="stat-luna">0</span></div>
-          <div><span>PROWL</span><span id="stat-watching">0</span></div>
+          <div><span>HUNTS</span><span id="stat-luna-watched">0</span></div>
+          <div><span>TRACK</span><span id="stat-luna-want">0</span></div>
+          <div><span>TOTAL</span><span id="stat-luna-total">0</span></div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- PACK SWITCH -->
+  <div class="pack-switch-wrap">
+    <div class="pack-switch-label">ADDING AS:</div>
+    <div class="pack-switch" id="packSwitch">
+      <button class="ps-btn" data-flag="alpha">◢ ALPHA</button>
+      <button class="ps-btn active" data-flag="pack">🐺 PACK</button>
+      <button class="ps-btn" data-flag="luna">◣ LUNA</button>
+    </div>
+  </div>
 
   <!-- SEARCH -->
   <section class="search-wrap">
@@ -683,13 +797,104 @@ function handleRealtimeChange({ eventType, new: n, old: o }) {
 
 // ── STATS ─────────────────────────────────────────────────────────────────────
 function updateStats() {
-  document.getElementById('stat-total').textContent   = movies.length;
-  document.getElementById('stat-watched').textContent  = movies.filter(m=>m.status==='watched').length;
-  document.getElementById('stat-want').textContent     = movies.filter(m=>m.status==='want').length;
-  document.getElementById('stat-watching').textContent = movies.filter(m=>m.status==='watching').length;
-  document.getElementById('stat-pack').textContent     = movies.filter(m=>m.flag==='pack').length;
-  document.getElementById('stat-luna').textContent     = movies.filter(m=>m.flag==='luna').length;
+  // alpha = movies flagged 'alpha' or 'pack'
+  const alphaMovies = movies.filter(m => m.flag === 'alpha' || m.flag === 'pack');
+  const lunaMovies  = movies.filter(m => m.flag === 'luna'  || m.flag === 'pack');
+  document.getElementById('stat-alpha-watched').textContent = alphaMovies.filter(m=>m.status==='watched').length;
+  document.getElementById('stat-alpha-want').textContent    = alphaMovies.filter(m=>m.status==='want').length;
+  document.getElementById('stat-alpha-total').textContent   = alphaMovies.length;
+  document.getElementById('stat-luna-watched').textContent  = lunaMovies.filter(m=>m.status==='watched').length;
+  document.getElementById('stat-luna-want').textContent     = lunaMovies.filter(m=>m.status==='want').length;
+  document.getElementById('stat-luna-total').textContent    = lunaMovies.length;
 }
+
+// ── 8-BIT SOUNDS ─────────────────────────────────────────────────────────────
+let audioCtx = null;
+let sfxEnabled = localStorage.getItem('retrohowl-sfx') === 'on';
+
+function initAudio() {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    catch(e) { console.warn('No audio support'); }
+  }
+}
+
+function sfx(type) {
+  if (!sfxEnabled || !audioCtx) return;
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+
+  const now = audioCtx.currentTime;
+  const beep = (freq, dur, vol = 0.04, wave = 'square') => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = wave;
+    osc.frequency.setValueAtTime(freq, now);
+    gain.gain.setValueAtTime(vol, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+    osc.connect(gain).connect(audioCtx.destination);
+    osc.start(now);
+    osc.stop(now + dur);
+  };
+  const slide = (f1, f2, dur, vol = 0.04) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(f1, now);
+    osc.frequency.exponentialRampToValueAtTime(f2, now + dur);
+    gain.gain.setValueAtTime(vol, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+    osc.connect(gain).connect(audioCtx.destination);
+    osc.start(now);
+    osc.stop(now + dur);
+  };
+
+  switch(type) {
+    case 'click':  beep(880, 0.04, 0.025); break;
+    case 'add':    slide(440, 880, 0.12); break;
+    case 'move':   beep(660, 0.05, 0.03); setTimeout(() => beep(880, 0.05, 0.03), 50); break;
+    case 'delete': slide(440, 110, 0.18, 0.04); break;
+    case 'roll':   beep(440 + Math.random()*440, 0.03, 0.02); break;
+    case 'land':
+      [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => beep(f, 0.08, 0.04), i * 60));
+      break;
+    case 'error':  beep(220, 0.15, 0.04, 'sawtooth'); break;
+  }
+}
+
+document.getElementById('soundToggle').addEventListener('click', () => {
+  sfxEnabled = !sfxEnabled;
+  localStorage.setItem('retrohowl-sfx', sfxEnabled ? 'on' : 'off');
+  const btn = document.getElementById('soundToggle');
+  btn.textContent = sfxEnabled ? '🔊 SFX ON' : '🔇 SFX OFF';
+  btn.classList.toggle('on', sfxEnabled);
+  if (sfxEnabled) { initAudio(); sfx('click'); }
+});
+
+// init on first user interaction (browser policy)
+document.addEventListener('click', () => initAudio(), { once: true });
+
+// restore sfx state on load
+if (sfxEnabled) {
+  document.getElementById('soundToggle').textContent = '🔊 SFX ON';
+  document.getElementById('soundToggle').classList.add('on');
+}
+
+// ── PACK SWITCH ──────────────────────────────────────────────────────────────
+let activeFlag = 'pack';
+
+document.getElementById('packSwitch').addEventListener('click', e => {
+  const btn = e.target.closest('.ps-btn');
+  if (!btn) return;
+  sfx('click');
+  activeFlag = btn.dataset.flag;
+  document.querySelectorAll('.ps-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // update player borders to highlight active
+  document.querySelector('.player.alpha').style.borderColor =
+    (activeFlag === 'alpha' || activeFlag === 'pack') ? 'var(--alpha-c)' : 'var(--slate)';
+  document.querySelector('.player.luna').style.borderColor =
+    (activeFlag === 'luna'  || activeFlag === 'pack') ? 'var(--luna-c)'  : 'var(--slate)';
+});
 
 // ── SEARCH ───────────────────────────────────────────────────────────────────
 let searchTimer = null;
@@ -776,13 +981,14 @@ async function addMovie(r) {
     rating:     Math.round((r.vote_average||0)*10)/10,
     media_type: r.media_type,
     status:     'want',
-    flag:       'pack',
+    flag:       activeFlag,
     overview:   r.overview || '',
     sort_order: movies.length,
   };
 
   const { error } = await db.from('movies').insert(entry);
-  if (error) { toast('ERROR ADDING MOVIE'); console.error(error); return; }
+  if (error) { sfx('error'); toast('ERROR ADDING MOVIE'); console.error(error); return; }
+  sfx('add');
   toast(`"${title}" ADDED TO THE PACK`);
   document.getElementById('searchInput').value = '';
   document.getElementById('clearBtn').style.display = 'none';
@@ -799,15 +1005,33 @@ function renderBoard() {
     const el = document.createElement('div');
     el.className = 'lane';
     el.dataset.s = lane.id;
+    const trashBtn = (lane.id === 'watched' && laneMovies.length > 0)
+      ? `<button class="lane-trash" data-trash="watched">🗑 CLEAR</button>` : '';
     el.innerHTML = `
       <div class="lane-hdr">
         <div class="lane-label">
           <svg class="lane-icon"><use href="#paw"/></svg>
           ${lane.label}
         </div>
-        <div class="lane-count">${laneMovies.length}</div>
+        <div style="display:flex;align-items:center;gap:4px">
+          ${trashBtn}
+          <div class="lane-count">${laneMovies.length}</div>
+        </div>
       </div>
       <div class="lane-cards"></div>`;
+
+    // wire trash-all
+    const trash = el.querySelector('.lane-trash');
+    if (trash) {
+      trash.addEventListener('click', async e => {
+        e.stopPropagation();
+        const count = laneMovies.length;
+        if (!confirm(`Trash ALL ${count} devoured movies? This cannot be undone.`)) return;
+        sfx('delete');
+        const ids = laneMovies.map(m => m.id);
+        await db.from('movies').delete().in('id', ids);
+      });
+    }
 
     const cards = el.querySelector('.lane-cards');
 
@@ -825,7 +1049,7 @@ function renderBoard() {
 }
 
 function makeCard(m) {
-  const flagLabel = {alpha:'P1',luna:'P2',pack:'PACK'}[m.flag] || 'PACK';
+  const flagLabel = {alpha:'ALPHA',luna:'LUNA',pack:'PACK'}[m.flag] || 'PACK';
   const el = document.createElement('div');
   el.className = 'card';
   el.draggable = true;
@@ -845,9 +1069,14 @@ function makeCard(m) {
         <span class="flag ${m.flag}">${flagLabel}</span>
       </div>
       <div class="card-flags">
-        <button class="flag-btn ${m.flag==='alpha'?'active-alpha':''}" data-f="alpha">P1</button>
-        <button class="flag-btn ${m.flag==='luna' ?'active-luna' :''}" data-f="luna">P2</button>
+        <button class="flag-btn ${m.flag==='alpha'?'active-alpha':''}" data-f="alpha">ALPHA</button>
+        <button class="flag-btn ${m.flag==='luna' ?'active-luna' :''}" data-f="luna">LUNA</button>
         <button class="flag-btn ${m.flag==='pack' ?'active-pack' :''}" data-f="pack">PACK</button>
+      </div>
+      <div class="card-move">
+        <button class="move-btn want     ${m.status==='want'    ?'current':''}" data-s="want">TRACK</button>
+        <button class="move-btn watching ${m.status==='watching'?'current':''}" data-s="watching">HUNT</button>
+        <button class="move-btn watched  ${m.status==='watched' ?'current':''}" data-s="watched">DEVOUR</button>
       </div>
     </div>
     <button class="card-del" title="Remove">✕</button>`;
@@ -856,7 +1085,18 @@ function makeCard(m) {
   el.querySelectorAll('.flag-btn').forEach(btn => {
     btn.addEventListener('click', async e => {
       e.stopPropagation();
+      sfx('click');
       await db.from('movies').update({ flag: btn.dataset.f }).eq('id', m.id);
+    });
+  });
+
+  // move buttons (mobile-friendly status switcher)
+  el.querySelectorAll('.move-btn').forEach(btn => {
+    btn.addEventListener('click', async e => {
+      e.stopPropagation();
+      if (btn.classList.contains('current')) return;
+      sfx('move');
+      moveToLane(m.id, btn.dataset.s);
     });
   });
 
@@ -864,6 +1104,7 @@ function makeCard(m) {
   el.querySelector('.card-del').addEventListener('click', async e => {
     e.stopPropagation();
     if (!confirm(`Remove "${m.title}" from the pack?`)) return;
+    sfx('delete');
     await db.from('movies').delete().eq('id', m.id);
   });
 
@@ -920,6 +1161,7 @@ async function reorderTo(draggedId, targetId, before) {
   const dragged = movies.find(m => m.id === draggedId);
   const target  = movies.find(m => m.id === targetId);
   if (!dragged || !target) return;
+  sfx('move');
   const newStatus = target.status;
   movies = movies.filter(m => m.id !== draggedId);
   const tIdx = movies.findIndex(m => m.id === targetId);
@@ -945,7 +1187,7 @@ async function moveToLane(id, status) {
 
 // ── WILDCARD ──────────────────────────────────────────────────────────────────
 document.getElementById('rollBtn').addEventListener('click', () => {
-  if (!movies.length) { toast('ADD SOME MOVIES FIRST!'); return; }
+  if (!movies.length) { sfx('error'); toast('ADD SOME MOVIES FIRST!'); return; }
   const slot = document.getElementById('slot');
   const btn  = document.getElementById('rollBtn');
   slot.classList.add('spinning');
@@ -956,12 +1198,14 @@ document.getElementById('rollBtn').addEventListener('click', () => {
   const iv = setInterval(() => {
     const m = movies[Math.floor(Math.random() * movies.length)];
     renderSlot(m);
+    sfx('roll');
     spins++;
     if (spins >= max) {
       clearInterval(iv);
       slot.classList.remove('spinning');
       btn.disabled = false;
       btn.textContent = '🌙 HOWL AGAIN';
+      sfx('land');
     }
   }, 85);
 });
